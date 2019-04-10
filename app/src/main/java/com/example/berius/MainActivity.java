@@ -1,58 +1,86 @@
 package com.example.berius;
 
+import android.os.Parcelable;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
-    TextView textView;
-    EditText editText;
+import java.sql.SQLOutput;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity{
+
+    private RecyclerView messageRecycle;
+    private MessagesRecyclerUtils.MessageAdapter messageAdapter;
+    private Parcelable listState;
+    private EditText editText;
+    private ArrayList<Message> currentMessages;
 
     /** restoring the text from the "textView"*/
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        String textViewSaved = savedInstanceState.getString("textView", "");
-        this.textView.setText(textViewSaved);
+        if (savedInstanceState != null) {
+            listState = savedInstanceState.getParcelable("LIST_STATE");
+            messageRecycle.getLayoutManager().onRestoreInstanceState(listState);
+            editText.setText(savedInstanceState.get("EDIT_TEXT").toString());
+            currentMessages = (ArrayList<Message>) savedInstanceState.getSerializable("CUR_MES");
+            messageAdapter.setList(currentMessages);
+            messageAdapter.notifyDataSetChanged();
+            System.out.println(messageAdapter.getMessageList().toString());
+        }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.textView = (TextView) findViewById(R.id.showText);
-        Button buttonSend = (Button) findViewById(R.id.button);
-        buttonSend.setOnClickListener(this);
+        messageRecycle = (RecyclerView) findViewById(R.id.RecyclerView_messages);
+        final ArrayList<Message> messageList = new ArrayList<Message>();
+        messageAdapter = new MessagesRecyclerUtils.MessageAdapter(this, messageList);
+        messageRecycle.setAdapter(messageAdapter);
+        messageRecycle.setLayoutManager(new LinearLayoutManager(this));
+        Button button = (Button) findViewById(R.id.button);
+        editText = (EditText) findViewById(R.id.editText);
 
+        button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                String newText = editText.getText().toString();
+                if(newText.equals("")){
+                    Context context = getApplicationContext();
+                    CharSequence text = "You just can't say nothing";
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                }
+                else {
+                    Message newMessage = (Message) new Message(newText);
+                    messageAdapter.addMessage(newMessage);
+                    messageAdapter.notifyDataSetChanged();
+                    editText.getText().clear();
+                }
+            }
+        });
     }
-
-    /** Called when the user taps the Send button */
-    public void sendMessage(View view) {
-        this.editText = (EditText) findViewById(R.id.editText);
-        String message = this.editText.getText().toString();
-    }
-
-    public void onClick(View view){
-        EditText editText = (EditText) findViewById(R.id.editText);
-        String message = editText.getText().toString();
-        this.textView.setText(message);
-        editText.setText("");
-    }
-
 
     /**saving the current text in the "textView"*/
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        if (this.textView.getText() != null) {
-           String textView = this.textView.getText().toString();
-           savedInstanceState.putString("textView", textView);
-        }
-
+        Parcelable listState = messageRecycle.getLayoutManager().onSaveInstanceState();
+        savedInstanceState.putParcelable("LIST_STATE",listState);
+        savedInstanceState.putString("EDIT_TEXT", editText.getText().toString());
+        savedInstanceState.putSerializable("CUR_MES", currentMessages = messageAdapter.getMessageList());
     }
+
 }
