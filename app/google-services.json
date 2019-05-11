@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "16601950630",
+    "firebase_url": "https://selfchat-7f858.firebaseio.com",
+    "project_id": "selfchat-7f858",
+    "storage_bucket": "selfchat-7f858.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:16601950630:android:874bb32a30756dea",
+        "android_client_info": {
+          "package_name": "com.example.berius"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "16601950630-dab7gr2iv2tjlupu14ha8bvckttcstg9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDesJqO6IU7aY-aVfQnS2v5GqkXsBei6H8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "16601950630-dab7gr2iv2tjlupu14ha8bvckttcstg9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:16601950630:android:e96b1a14da4ca525",
+        "android_client_info": {
+          "package_name": "com.example.beruis"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "16601950630-dab7gr2iv2tjlupu14ha8bvckttcstg9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDesJqO6IU7aY-aVfQnS2v5GqkXsBei6H8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "16601950630-dab7gr2iv2tjlupu14ha8bvckttcstg9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
